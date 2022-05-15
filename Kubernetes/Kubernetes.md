@@ -73,9 +73,29 @@ ___
 
     * **External Service** is a service that opens the communication from external sources. To avoid your database to be open to the public requests, you need to create an internal service. 
 
-    * **Internal Service** is a type of a service that you specify when creating one.
+    * **Internal Service** is a type of a service that you specify when creating one. (ClusterIP)
     
     * ***URL of the external service*** is usually an http protocol with a ip address and a port number of the service. It is not practical & very bad for end product but good for testing purposes or if you want test something very fast.
+
+    *  To check the IP address & extra information of the pods, refer command below.
+
+    * ```bash
+        kubectl get pod -o wide
+      ``` 
+
+    ## Kubernetes Services
+
+    ### Types of Service :-
+
+    * #### ClusterIp Services (Default type)
+    
+    * #### Headless Services
+
+    * #### NodePort Services 
+
+    * #### LoadBalancer Services
+
+
 
 4. Ingress
 
@@ -134,7 +154,7 @@ ___
 
     * ***Database pod can't be replicated via Deployment!***. This is because the database has a state which is its data.
 
-    * Deployment is **ONLY** for stateless applications.
+    * Deployment is **ONLY** for stateless applications. 
 
 
 9. Stateful Set
@@ -149,6 +169,18 @@ ___
     
     
     * **Common practice :** Database application are often hosted outside of the Kubernetes cluster. 
+
+    * Stateful application is more difficult because :-
+    
+        * It can't be created & deleted at the same time in any order
+
+        * It can't be randomly addressed because the replica pods are not identical. They each have their own identity.
+
+        * It maintain a sticky identity for each pods
+        
+        * The pod is created from the same specification but not interchangeable whereby each has persistent identifier across any rescheduling
+
+    * Stateful application is not perfect for containerized environments
 
 ___
 
@@ -239,6 +271,8 @@ ___
     * When a new pod gets scheduled when a pod dies, all of these changes get saved or updated  in the key value store of etcd.
 
     * This mechanism with scheduler, controller manager & etc works because of it data *(reason why etcd is the cluster brain)*
+
+    * Etcd holds the **current status** of any component.
 
     * Things that are store in the etcd, *refer to the table below*.
 
@@ -472,16 +506,225 @@ ___
 
 * Attributes of 'spec' are **specific** to the **kind**!
 
+### Format of a configuration file
+
+* **Format is in yaml.**
+
+    * yaml is very strict indentation.
+
+    * Best to store the config file with your code
+
+### **Blueprint for pods (Template)**
+
+* (put image 3 here...)
+
+### **Connecting components (Labels & Selectors & Ports)**
+
+* Metadata contain **label**, spec contain **selector**.
+
+* In metadata, give any key-value pair for component.
+
+* Pods get the parts created using the template bueprint
+
+* This label is matched by the selector to create the connection. So that, the deployment will know which pods belong to it.
+
+* In the deployment has its own label that are use by the Service selector.
+
+* In the spec of Service, selector need to be define which makes a connection between the Service & the deployment or it's pods. *This is because the Service must know which pods belong to that Service.*
+
+*  The **containerPort** must match with the **targetPort**.
+
+#### *How to validate the Service if it forwards the request to the right pods?*
+
+#### *Answer: check IP address on the Endpoints by the entering command below.*
+
+```bash
+    kubectl get service SERVICE_NAME
+```    
 
 ## Organize Your Components
 
+### **Kubernetes Namespaces**
+
+* What is a Namespace?
+
+    * Place for organizing resources.
+
+    * *Think it as a virtual cluster inside of Kubernetes cluster*
+
+    * Commands for Namespace
+
+        * >kubernetes-dashboard
+
+            * Specific to mini cube installation.
+
+        * >kube-system 
+
+            * It is not meant for your use.
+
+            * Do **Not** create or modify in kube-system.
+
+        * >kube-public
+
+            * Contain publicly accessible data.
+
+            * It has configmap.
+
+        * >kube-node-lease   
+
+            * Each nodes get its own object that contains the information about that node's availability.
+
+        * >default   
+
+            * Resources created are located.
+
+    * How to create a Namespace?
+
+        * By entering the command below.
+        
+        * ```bash
+            kubectl create namespace NAMESPACE_NAME 
+          ```
+
+        * Second way to create namespace is with configuration file              
+
+* Why use Namespace?
+
+    * To group resources in Namespace.
+
+    * To avoid disrupting other team's deployment when working in the same Kubernetes cluster.
+
+    * For resources sharing.
+    
+    * Easier for Blue/Green deployment.
+
+    * To limit the resources & access to Namespace when working with multiple teams.
+
+    * Ability to limit the resources that each namespace consumes.
+
+* How Namespace work & how to use it?
+
+    * Most resources from another Namespace cannot be access.
+
+    * A resources that can be share across Namespace is Service.
+
+    * Volume & node live globally in a cluster, it cannot be isolated. 
+
+        * Using the command below to list components that not bound to a namespace.
+        
+        * ```
+            kubectl api-resource --namespaced=false
+          ```    
+    * How to create components in Namespace?
+
+        * Configure in the configuration file under the metadata.
+
+        * To change the active Namespace, use the tool called **kubens**. Please refer [here](https://github.com/ahmetb/kubectx#installation) for installation.
+
+
+
 ## Kubernetes Ingress
+
+* Ingress Controller
+
+    *  It manage redirections & entrypoint to cluster.
+
+    * Third-party implementations can be used such as Kubernetes Nginx Ingress Controller.
+
+* Install Ingress Controller in Minikube
+
+    * ```
+        minikube addons enable ingress
+      ```    
+
+* Configuring TLS certificate
+
+    * Define the attribute called *tls* under spec
+
+    * Under *tls*, define *secretName*
+
+    * In the Secret configuration, using the type *secret-tls*
+
+        * Data keys need to be *tls.crt* & *tls.key*
+
+        * Values are file contents not the file paths/locations
+
+        * Secret component must be in the same Namespace as the Ingress component.
+
 
 ## Helm - Package Manager
 
+*  ### What is Helm?
+
+    * Helm Charts
+
+        * Consist of bundle of YAML files.
+
+        * You can use Helm to create your own Helm Charts & push them to Helm Repository.
+
+        * You can also donwload & use the existing Helm Charts.
+
+        * Features in Helm :-
+        
+            * Sharing Helm Charts
+
+            * Templating Engine
+
+            * Release Management
+        
+        * Helm Chart Structure
+
+            * put image 5 here...
+    
+
 ## Persisting Data in Kubernetes
 
-## Kubernetes StatefulSet - Deploying Stateful Apps
+* Storage Requirements
 
-## Kubernetes Services
+    1. Storage thata does not depend on the pod lifecycle.
+
+    2. Storage must be available on all nodes.
+
+    3. Storage needs to survive even if the cluster crashes.
+
+### Persistent Volome
+
+* Is created via yaml file, *PersistentVolume* as the kind. 
+
+* ConfigMap & Secret is **NOT** created via PV & PVC, 
+
+
+### Persistent Volume Claim (PVC) 
+
+* Application has to claim the Persistent Volume using PVC.
+
+* PVC claim a volume with some storage size/capacity.
+
+* Additional characteristics should be included such accessModes where it should be *ReadWriteOnce*, *ReadOnly* or *ReadWrite*.
+
+* Must use the PVC that has been configure in the Pods configuration files.
+
+
+### Storage Class (SC)
+
+* Admin need to configure the storage for the cluster.
+
+* Create Persistent Volumes whereby developers can claim them using PVCs.
+
+* SC provisions PV **dynamically** when PVC claims it.
+
+* SC is created via yaml configuration file. *StorageClass* as *kind*
+
+* StorageBackend is defined in the SC components using the *provisioner* attribute
+
+* Each storage backend has their own provisioner that Kubernetes offers
+
+    * Internal provisioner (prefix) : *kubernetes.io*
+
+    * Externally provisioner
+
+* Parameters of the storage that we want to request for PV can be configure.     
+ 
+
+
 
