@@ -49,7 +49,7 @@ ___
 
     * **Important** : Pod usually for running one application container inside of it. However, you can run multiple containers inside on pod only if you have one main application container with a helper container or some side service that has to run inside of the pod.
 
-
+    * ![Image 1](Image_1.PNG)
 
     #### How does Pod communicate with each other in Kubernetes?
 
@@ -77,7 +77,7 @@ ___
     
     * ***URL of the external service*** is usually an http protocol with a ip address and a port number of the service. It is not practical & very bad for end product but good for testing purposes or if you want test something very fast.
 
-    *  To check the IP address & extra information of the pods, refer command below.
+    *  To check the IP address & extra information of the pods, use the command below.
 
     * ```bash
         kubectl get pod -o wide
@@ -99,11 +99,11 @@ ___
 
 4. Ingress
 
-    * The request will goes to ingress first then does forwarding then to the service
+    * The request will goes to ingress first then does forwarding then to the service.
 
     * It is used to route traffic into the cluster.
 
-    * To make the external service URL look like with a secure protocol & a domain name
+    * To make the external service URL look like with a secure protocol &  domain name.
 
 5. ConfigMap
 
@@ -127,9 +127,9 @@ ___
     * To keep the database data or log data to be persisted reliably long term.
 
 
-    * **How it works?** It basically attaches a physical storage on a hard drive to your pod &  either store on local machine, means on the same server node where the pod is runnning or store on a remote storage, means outside the Kubernetes cluster *example : cloud storage*
+    * **How it works?** It basically attaches a physical storage on a hard drive to your pod &  either store on local machine, means on the same server node where the pod is runnning or store on a remote storage, means outside the Kubernetes cluster *example : cloud storage*.
 
-    * Using the external reference on the storage, your data will be there persisted when the database pod or container gets restarted
+    * Using the external reference on the storage, your data will be there persisted when the database pod or container gets restarted.
 
     * Kubernetes cluster does **NOT** manage data persistence!!! Therefore, users are **RESPONSIBLE** for backing up, replicate & manage the data.
 
@@ -140,7 +140,7 @@ ___
 
 8. Deployment  
 
-    * **To replicate the pod**, you need to define blueprints for pods & specify how many replicas of pods that you would like to run, 
+    * **To replicate the pod**, you need to define blueprints for pods & specify how many replicas of pods that you would like to run.
 
     * Deployment is the blueprint. 
 
@@ -172,15 +172,15 @@ ___
 
     * Stateful application is more difficult because :-
     
-        * It can't be created & deleted at the same time in any order
+        * It can't be created & deleted at the same time in any order.
 
         * It can't be randomly addressed because the replica pods are not identical. They each have their own identity.
 
-        * It maintain a sticky identity for each pods
+        * It maintain a sticky identity for each pods.
         
-        * The pod is created from the same specification but not interchangeable whereby each has persistent identifier across any rescheduling
+        * The pod is created from the same specification but not interchangeable whereby each has persistent identifier across any rescheduling.
 
-    * Stateful application is not perfect for containerized environments
+    * Stateful application is not perfect for containerized environments.
 
 ___
 
@@ -246,7 +246,7 @@ ___
 
     * Scheduler just decides on which node new pod will be scheduled, the process that actually does the scheduling that starts the pod is the Kubelet
 
-    * (put image here...)
+    * ![Image 2](Image_2.PNG)
 
 * Controller manager (master process)
 
@@ -260,7 +260,6 @@ ___
 
     * It makes requests to the corresponding Kubelet on those worker nodes to actually restart the pods.
 
-    *  
 
 * etcd (master process)   
 
@@ -492,7 +491,7 @@ ___
 
         * Automatically generated & added by Kubernetes.       
 
-* The first 2 lines in the configuration file is declaring what you want to create here. *Example below
+* The first 2 lines in the configuration file is declaring what you want to create here. *Example below*.
 
     * ```yaml
         apiVersion : apps/v1
@@ -504,7 +503,7 @@ ___
         kind : Service
       ```  
 
-* Attributes of 'spec' are **specific** to the **kind**!
+* Attributes of *spec* are **specific** to the **kind**!
 
 ### Format of a configuration file
 
@@ -512,11 +511,13 @@ ___
 
     * yaml is very strict indentation.
 
-    * Best to store the config file with your code
+    * Best to store the config file with your code.
 
 ### **Blueprint for pods (Template)**
 
-* (put image 3 here...)
+ ![Image 3](Image_3.png)
+
+ ![Image 4](Image_4.png)
 
 ### **Connecting components (Labels & Selectors & Ports)**
 
@@ -524,7 +525,7 @@ ___
 
 * In metadata, give any key-value pair for component.
 
-* Pods get the parts created using the template bueprint
+* Pods get the parts created using the template blueprint.
 
 * This label is matched by the selector to create the connection. So that, the deployment will know which pods belong to it.
 
@@ -550,7 +551,7 @@ ___
 
     * Place for organizing resources.
 
-    * *Think it as a virtual cluster inside of Kubernetes cluster*
+    * *Think it as a virtual cluster inside of Kubernetes cluster*.
 
     * Commands for Namespace
 
@@ -586,7 +587,7 @@ ___
             kubectl create namespace NAMESPACE_NAME 
           ```
 
-        * Second way to create namespace is with configuration file              
+        * Second way to create namespace is with configuration file.              
 
 * Why use Namespace?
 
@@ -639,7 +640,7 @@ ___
 
 * Configuring TLS certificate
 
-    * Define the attribute called *tls* under spec
+    * Define the attribute called *tls* under spec.
 
     * Under *tls*, define *secretName*
 
@@ -647,7 +648,7 @@ ___
 
         * Data keys need to be *tls.crt* & *tls.key*
 
-        * Values are file contents not the file paths/locations
+        * Values are file contents not the file paths/locations.
 
         * Secret component must be in the same Namespace as the Ingress component.
 
@@ -674,7 +675,7 @@ ___
         
         * Helm Chart Structure
 
-            * put image 5 here...
+            * ![Image 5](Image_5.png) 
     
 
 ## Persisting Data in Kubernetes
@@ -691,7 +692,7 @@ ___
 
 * Is created via yaml file, *PersistentVolume* as the kind. 
 
-* ConfigMap & Secret is **NOT** created via PV & PVC, 
+* ConfigMap & Secret is **NOT** created via PV & PVC.
 
 
 ### Persistent Volume Claim (PVC) 
@@ -713,11 +714,11 @@ ___
 
 * SC provisions PV **dynamically** when PVC claims it.
 
-* SC is created via yaml configuration file. *StorageClass* as *kind*
+* SC is created via yaml configuration file. *StorageClass* as *kind*.
 
-* StorageBackend is defined in the SC components using the *provisioner* attribute
+* StorageBackend is defined in the SC components using the *provisioner* attribute.
 
-* Each storage backend has their own provisioner that Kubernetes offers
+* Each storage backend has their own provisioner that Kubernetes offers :-
 
     * Internal provisioner (prefix) : *kubernetes.io*
 
