@@ -676,7 +676,7 @@ ___
         
         * Helm Chart Structure
 
-            * ![Image 5](Image_5.png) 
+            * ![Image 5](Image_5.PNG) 
     
 
 ## Persisting Data in Kubernetes
