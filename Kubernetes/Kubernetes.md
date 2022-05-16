@@ -515,7 +515,8 @@ ___
 
 ### **Blueprint for pods (Template)**
 
- ![Image 3](Image_3.png)
+ ![Image 3](Image_3.PNG)
+
 
  ![Image 4](Image_4.png)
 
