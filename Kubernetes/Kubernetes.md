@@ -23,7 +23,7 @@ Open source **container orchestration framework** which was developed by **Googl
 
 * High performance. *it loads fast & high response rates from the application* 
 
-* Disaster recovery. *There will be some kind of mechanism to back up the data & restore it to the letest state*
+* Disaster recovery. *There will be some kind of mechanism to back up the data & restore it to the latest state*
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
     * ##### In Kubernetes, each pod gets its own  internal ip address in a virtual network.
 
-    * ##### The application container can communicate with the  using the ip address
+    * ##### The application container can communicate with the  using the ip address.
 
     * ##### Pod components are ephemeral ( easily die / crash). A new one will created in its place & new ip address on re-creation.
 
@@ -172,13 +172,13 @@ ___
 
     * Stateful application is more difficult because :-
     
-        * It can't be created & deleted at the same time in any order.
+     * It can't be created & deleted at the same time in any order.
 
-        * It can't be randomly addressed because the replica pods are not identical. They each have their own identity.
+     * It can't be randomly addressed because the replica pods are not identical. They each have their own identity.
 
-        * It maintain a sticky identity for each pods.
+     * It maintain a sticky identity for each pods.
         
-        * The pod is created from the same specification but not interchangeable whereby each has persistent identifier across any rescheduling.
+      * The pod is created from the same specification but not interchangeable whereby each has persistent identifier across any rescheduling.
 
     * Stateful application is not perfect for containerized environments.
 
@@ -240,11 +240,11 @@ ___
 
     * The only entrypoint into the cluster.
 
-    * Is load balanced
+    * It is load balanced.
 
 * Scheduler (master process)
 
-    * Scheduler just decides on which node new pod will be scheduled, the process that actually does the scheduling that starts the pod is the Kubelet
+    * Scheduler just decides on which node new pod will be scheduled, the process that actually does the scheduling that starts the pod is the Kubelet.
 
     * ![Image 2](Image_2.PNG)
 
@@ -269,7 +269,7 @@ ___
 
     * When a new pod gets scheduled when a pod dies, all of these changes get saved or updated  in the key value store of etcd.
 
-    * This mechanism with scheduler, controller manager & etc works because of it data *(reason why etcd is the cluster brain)*
+    * This mechanism with scheduler, controller manager & etc works because of it data *(reason why etcd is the cluster brain)*.
 
     * Etcd holds the **current status** of any component.
 
@@ -337,7 +337,7 @@ ___
 
     * Install Hypervisor , *example Virtual box*
 
-* For full installation guideline refer to this [link](https://minikube.sigs.k8s.io/docs/start/) & [here](https://kubernetes.io/docs/tasks/tools/) to install Kubernetes, available for all OS.   
+* For full installation guideline refer to this [link](https://minikube.sigs.k8s.io/docs/start/) & [here](https://kubernetes.io/docs/tasks/tools/), available for all OS.   
 
 ## Main Kubectl Commands - Kubernetes CLI  
 
@@ -435,7 +435,7 @@ ___
 
     ##### To get addtional information of a pod.
 
-    ##### Refer to *Message* column, the state change happend inside the pod
+    ##### Refer to *Message* column, the state change happend inside the pod.
 
     ```bash
         kubectl describe pod POD_NAME
@@ -727,6 +727,3 @@ ___
 
 * Parameters of the storage that we want to request for PV can be configure.     
  
-
-
-
